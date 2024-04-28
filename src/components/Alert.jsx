@@ -1,16 +1,27 @@
-import PropTypes from 'prop-types';
+import Swal from 'sweetalert2'
 
-const Alert = ({ mensaje, tipo }) => {
+const Alert = () => {
+    
     return (
-        <div className={`alert ${tipo}`}>
-            <p>{mensaje}</p>
-        </div>
-    );
-};
+        Swal.fire({
+            title: "¡Registro Exitoso!",
+            showClass: {
+                popup: `
+                animate__animated
+                animate__fadeInUp
+                animate__faster
+              `
+            },
+            hideClass: {
+                popup: `
+                animate__animated
+                animate__fadeOutDown
+                animate__faster
+              `
+            }
+        })
+    )
+}
 
-Alert.propTypes = {
-    mensaje: PropTypes.string.isRequired,
-    tipo: PropTypes.string.isRequired
-};
+export default Alert
 
-export default Alert;

@@ -1,37 +1,37 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useState } from 'react';
+import Alert from './Alert';
 
-const Formulario = ({ onSubmit }) => {
+const Formulario = () => {
     const [nombre, setNombre] = useState('');
     const [email, setEmail] = useState('');
     const [contrasena, setContrasena] = useState('');
     const [confirmContrasena, setConfirmContrasena] = useState('');
+    const [error, setError] = useState(false);
+    const [error2, setError2] = useState(false);
+    // const [mensajeAlerta, setMensajeAlerta] = useState('');
+    // const [tipoAlerta, setTipoAlerta] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (camposCompletos()) {
-            if (emailIsValid() && contrasenasCoinciden()) {
-                onSubmit({ nombre, email, contrasena });
-            } else {
-                alert('Por favor, revisa los campos del formulario.');
-            }
-        } else {
-            alert('Por favor completa todos los campos.');
+        
+        if (nombre === '' || email === '' || contrasena === '' || confirmContrasena === '') {
+            setError(true);
+
+            return;
+        } else if (contrasena != confirmContrasena) {
+            setError2(true);
+            return;
         }
+        setError(false);
+        setError2(false);
+        setNombre('');
+        setEmail('');
+        setContrasena('');
+        setConfirmContrasena('');
+        Alert()
     };
 
-    const camposCompletos = () => {
-        return nombre.trim() !== '' && email.trim() !== '' && contrasena.trim() !== '' && confirmContrasena.trim() !== '';
-    };
 
-    const emailIsValid = () => {
-       
-        return true;
-    };
-
-    const contrasenasCoinciden = () => {
-        return contrasena === confirmContrasena;
-    };
 
     return (
         <form className="formulario" onSubmit={handleSubmit}>
@@ -68,13 +68,15 @@ const Formulario = ({ onSubmit }) => {
                 />
             </div>
             <button className='btn btn-success' type="submit">Registrarse</button>
+            <div className="mt-4" role="alert">
+                {error ? <p>Por favor completa todos los campos</p> : null}
+                {error2 ? <p>Las contraseñas no coinciden</p> : null}
+            </div>
         </form>
     );
 };
 
-Formulario.propTypes = {
-    onSubmit: PropTypes.func.isRequired
-};
+
 
 export default Formulario;
 
